@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户列表</title>
+    <link rel="stylesheet" href="../css/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="icon" href="https://g.csdnimg.cn/static/logo/favicon.ico">
+</head>
+
+<body>
+    <%- include("../component/header.ejs") %>
+        <div class="col-sm-2">
+            <%- include("../component/aside.ejs") %>
+        </div>
+        <div class="col-sm-10">
+            <ol class="breadcrumb">
+                <li><a href="/index">商品管理</a></li>
+                <li class="active">商品列表</li>
+            </ol>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">搜索</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">名称:</label>
+                        <input type="text" id="exampleInputEmail1" placeholder="请输入名称" style="height: 32px;">
+                        <a class="btn btn-default" href="#" role="button">开始搜索</a>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">增加用户</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped goodstb">
+                        <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>图标</th>
+                                <th>名称</th>
+                                <th>价格</th>
+                                <th>邮费</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%for(let i=0;i<productListDatas.length;i++){%>
+                                <tr>
+                                    <td>
+                                        <%=i+1%>
+                                    </td>
+                                    <td>
+                                        <img src="<%=productListDatas[i].pic%>" style="width: 100px;" alt="">
+                                    </td>
+                                    <td>
+                                        <%=productListDatas[i].title%>
+                                    </td>
+                                    <td>
+                                        <%=productListDatas[i].price%>元
+                                    </td>
+                                    <td>
+                                        <%=productListDatas[i].postage%>元
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary" href="/admin/productedit?id=<%=productListDatas[i]._id%>" role="button">修改</a>
+                                        <a class="btn btn-danger" href="#" role="button">删除</a>
+                                    </td>
+                                </tr>
+                                <%}%>
+                        </tbody>
+                    </table>
+                    <div>
+                        <ul class="pagination">
+                            <li><a href="#">总共<span><%=total%></span>条数据</a></li>
+                            <li><a href="/admin/productlist?page=1">首页</a></li>
+                            <li class="<%=page==1?'disabled':''%>"><a href="/admin/productlist?page=<%=page-1%>">上一页</a></li>
+
+
+                            <%for(var i=1;i<=totalPage;i++){%>
+                                <li class="<%=page==i?'active':''%>">
+                                    <a href="/admin/productlist?page=<%=i%>">
+                                        <%=i%>
+                                    </a>
+                                </li>
+                                <%}%>
+
+
+                                    <li class="<%=page==totalPage?'disabled':''%>"><a href="/admin/productlist?page=<%=page=page<totalPage?page+1:totalPage%>">下一页</a></li>
+                                    <li><a href="/admin/productlist?page=<%=totalPage%>">尾页</a></li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <script src="../js/jquery-3.4.1.js"></script>
+        <script src="../css/dist/js/bootstrap.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+.goodstb th:nth-child(3) {
+    width: 500px;
+}
+
+.goodstb th:nth-child(6) {
+    text-align: center;
+}
+
+.goodstb td:nth-child(6) {
+    text-align: center;
+}

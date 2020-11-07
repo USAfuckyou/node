@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户列表</title>
+    <link rel="stylesheet" href="../css/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="icon" href="https://g.csdnimg.cn/static/logo/favicon.ico">
+    <script src="../js/jquery-3.4.1.js"></script>
+    <script src="../css/dist/js/bootstrap.js"></script>
+</head>
+
+<body>
+    <%- include("./component/header.ejs") %>
+        <div class="col-sm-2">
+            <%- include("./component/aside.ejs") %>
+        </div>
+        <div class="col-sm-10">
+            <ol class="breadcrumb">
+                <li><a href="/index">用户管理</a></li>
+                <li class="active">用户列表</li>
+            </ol>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">搜索</h3>
+                </div>
+                <div class="panel-body">
+                    <form action="/admin/searchuser?page=<%=page%>" method="GET">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">名称:</label>
+                            <input type="text" name="username" id="name" style="height: 32px;">
+                            <button class="btn btn-default" type="submit">开始搜索</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">增加用户</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped goodstb">
+                        <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>姓名</th>
+                                <th style="width: 0;">年龄</th>
+                                <th>性别</th>
+                                <th>地址</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%for(var i=0;i<userlists.length;i++){%>
+                                <tr>
+                                    <td>
+                                        <%=i+1%>
+                                    </td>
+                                    <td>
+                                        <%=userlists[i].username%>
+                                    </td>
+                                    <td>
+                                        <%=userlists[i].age%>
+                                    </td>
+                                    <td>
+                                        <%=userlists[i].sex%>
+                                    </td>
+                                    <td>
+                                        <%=userlists[i].address%>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary" href="/admin/edituser?id=<%=userlists[i]._id%>" role="button">修改</a>
+                                        <a href="javascript:;" class="btn btn-danger delete" href="#" role="button" data-toggle="modal" data-target="#myModal" data-id="<%=userlists[i]._id%>">删除</a>
+                                    </td>
+                                </tr>
+                                <%}%>
+                        </tbody>
+                    </table>
+                    <div>
+                        <ul class="pagination">
+                            <li><a href="#">总共<span><%=total%></span>条数据</a></li>
+                            <li><a href="/admin/searchuser?page=1&username=<%=username%>">首页</a></li>
+                            <li class="<%=page==1?'disabled':''%>"><a href="/admin/searchuser?page=<%=page-1%>&username=<%=username%>">上一页</a></li>
+
+
+                            <%for(var i=1;i<=totalPage;i++){%>
+                                <li class="<%=page==i?'active':''%>">
+                                    <a href="/admin/searchuser?page=<%=i%>&username=<%=username%>">
+                                        <%=i%>
+                                    </a>
+                                </li>
+                                <%}%>
+
+
+                                    <li class="<%=page==totalPage?'disabled':''%>"><a href="/admin/searchuser?username=<%=username%>&page=<%=page=page<totalPage?page+1:totalPage%>">下一页</a></li>
+                                    <li><a href="/admin/searchuser?page=<%=totalPage%>&username=<%=username%>">尾页</a></li>
+                        </ul>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- 模态框 -->
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="/admin/deleteuser" method="post" enctype="application/x-www-form-urlencoded">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">提示</h4>
+                        </div>
+                        <div class="modal-body">
+                            您确认要删除吗
+                            <input type="hidden" name="id" id="userId">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-default">忍痛离开 </button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">再等等</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <script>
+            $(".delete").on("click", function() {
+                console.log($(this).attr("data-id"));
+                $("#userId").val($(this).attr("data-id")) //attr可以获取自定义属性的属性值
+            })
+        </script>
+</body>
+
+</html>

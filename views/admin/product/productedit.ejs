@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>增加</title>
+    <link rel="stylesheet" href="../css/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../css/edit.css">
+    <script src="/ckeditor5/ckeditor.js"></script>
+</head>
+
+<body>
+    <%- include("../component/header.ejs") %>
+        <div class="col-sm-2">
+            <%- include("../component/aside.ejs") %>
+        </div>
+        <div class="col-sm-10">
+            <ol class="breadcrumb">
+                <li><a href="#">商品管理</a></li>
+                <li class="active">添加商品</li>
+            </ol>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">增加商品</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-sm-8 col-sm-offset-1">
+                        <form action="/admin/doproductedit?id=<%=editDatas._id%>" method="POST" enctype="multipart/form-data">
+                            <!-- 
+                                enctype指定表单数据编码类型
+                                application/x-www-form-urlencoded 默认的 get传值 
+                                multipart/form-data 提交文件类型的数据  文件数据要用这个
+                             -->
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">商品名称:</label>
+                                <input type="text" name="title" value="<%=editDatas.title%>">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">商品图片:</label>
+                                <input type="file" id="file" name="pic">
+                            </div>
+                            <div class="form-group">
+                                <img src="<%=editDatas.pic%>" alt="" style="width: 100px;" id="thumb">
+                            </div>
+                            <div class="form-group ">
+                                <label for="exampleInputEmail1 ">商品价格:</label>
+                                <input type="number" name="price" value="<%=editDatas.price%>">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">商品邮费:</label>
+                                <input type="number" name="postage" value="<%=editDatas.postage%>">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">商品描述:</label>
+                                <textarea id="ckeditor" style="width: 450px;height: 180px;resize: none;" name="content">
+                                   <%=editDatas.content%>
+                                </textarea>
+                            </div>
+
+                            <button class="btn btn-default" type="submit">确认修改</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script>
+            let ckeditor;
+            ClassicEditor.create(document.querySelector("#ckeditor")); //ckeditor多行文本上边定义的id
+
+            // js实现上传图片预览
+            // 获取图片id
+            let file = document.querySelector("#file")
+            let thumb = document.querySelector("#thumb")
+
+            file.onchange = function() {
+                // 1 创建一个文件对象
+                let render = new FileReader();
+                // 2 读取文件
+                console.log(this.files[0]);
+                render.readAsDataURL(this.files[0])
+                render.onload = function() {
+                    console.log(render.result);
+                    thumb.src = render.result
+                }
+            }
+        </script>
+
+        <script src="../js/jquery-3.4.1.js"></script>
+        <script src="../css/dist/js/bootstrap.js"></script>
+</body>
+
+</html>
